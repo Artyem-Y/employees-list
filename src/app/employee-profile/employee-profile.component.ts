@@ -17,7 +17,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(p => {
-      this.employee = this.employees[p.id];
+      this.employee = this.employees[p.id - 1];
     })
   }
 }
