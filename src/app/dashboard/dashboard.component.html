@@ -1,46 +1,39 @@
 <div class="employee-container mat-elevation-z8">
 
-  <h4>Employess</h4>
+  <h4>Employees</h4>
 
   <table mat-table [dataSource]="dataSource" class="employee-table"
-         matSort matSortActive="name" matSortDisableClear matSortDirection="desc">
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef>#</th>
-      <td mat-cell *matCellDef="let row">{{row.id}}</td>
+         matSort
+         matSortDisableClear matSortDirection="desc" cdkDropListGroup>
+    <ng-container *ngFor="let column of columnDefinitions; let i = index" [matColumnDef]="column.def">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header
+          cdkDropList
+          cdkDropListLockAxis="x"
+          cdkDropListOrientation="horizontal"
+          (cdkDropListDropped)="dropListDropped($event, i)"
+          cdkDrag
+          (cdkDragStarted)="dragStarted($event, i)"
+          [cdkDragData]="{name: column.def, columIndex: i}">
+        {{ column.def }}
+      </th>
+      <span *ngIf="column.def === 'name'">
+        <td mat-cell *matCellDef="let row">
+         <a class="pointer" target="_blank" routerLink="{{ '/' + row.id }}">{{ row[column.def] }}</a>
+        </td>
+      </span>
+      <span *ngIf="column.def !== 'name'">
+        <td mat-cell *matCellDef="let row">{{ row[column.def] }}</td>
+      </span>
     </ng-container>
 
-    <!-- Title Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let row">{{row.name}}</td>
-    </ng-container>
-
-    <!-- State Column -->
-    <ng-container matColumnDef="lastName">
-      <th mat-header-cell *matHeaderCellDef>Last Name</th>
-      <td mat-cell *matCellDef="let row">{{row.lastName}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="dateOfBirth">
-      <th mat-header-cell *matHeaderCellDef>Date of Birth</th>
-      <td mat-cell *matCellDef="let row">{{row.dateOfBirth}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="phone">
-      <th mat-header-cell *matHeaderCellDef>Phone</th>
-      <td mat-cell *matCellDef="let row">{{row.phone}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
-      <td mat-cell *matCellDef="let row">{{row.email}}</td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+    <tr class="pointer" mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
     <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
   </table>
 
-    <form [formGroup]="form" class="filter">
-      <mat-checkbox *ngFor="let cd of columnDefinitions" [formControlName]="cd.def">{{cd.label}}</mat-checkbox>
-    </form>
+  <form [formGroup]="form" class="filter">
+    <mat-checkbox
+      *ngFor="let cd of columnDefinitions" [formControlName]="cd.def"
+      [(ngModel)]="cd.hide"
+    >{{cd.label}}</mat-checkbox>
+  </form>
 </div>
