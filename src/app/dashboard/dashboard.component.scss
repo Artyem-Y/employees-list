@@ -1,0 +1,14 @@
+table {
+  width: 100%;
+}
+th.mat-header-cell {
+  text-align: center;
+}
+
+.filter {
+  padding: 10px 0;
+  height: auto;
+  mat-checkbox {
+    margin-right: 10px;
+  }
+}

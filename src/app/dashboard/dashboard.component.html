@@ -1,0 +1,46 @@
+<div class="employee-container mat-elevation-z8">
+
+  <h4>Employess</h4>
+
+  <table mat-table [dataSource]="dataSource" class="employee-table"
+         matSort matSortActive="name" matSortDisableClear matSortDirection="desc">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>#</th>
+      <td mat-cell *matCellDef="let row">{{row.id}}</td>
+    </ng-container>
+
+    <!-- Title Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let row">{{row.name}}</td>
+    </ng-container>
+
+    <!-- State Column -->
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef>Last Name</th>
+      <td mat-cell *matCellDef="let row">{{row.lastName}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="dateOfBirth">
+      <th mat-header-cell *matHeaderCellDef>Date of Birth</th>
+      <td mat-cell *matCellDef="let row">{{row.dateOfBirth}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef>Phone</th>
+      <td mat-cell *matCellDef="let row">{{row.phone}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let row">{{row.email}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+    <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
+  </table>
+
+    <form [formGroup]="form" class="filter">
+      <mat-checkbox *ngFor="let cd of columnDefinitions" [formControlName]="cd.def">{{cd.label}}</mat-checkbox>
+    </form>
+</div>
