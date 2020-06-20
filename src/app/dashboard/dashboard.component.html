@@ -21,8 +21,11 @@
          <a class="pointer" target="_blank" routerLink="{{ '/' + row.id }}">{{ row[column.def] }}</a>
         </td>
       </span>
-      <span *ngIf="column.def !== 'name'">
+      <span *ngIf="column.def !== 'name' && column.def !== 'dateOfBirth'">
         <td mat-cell *matCellDef="let row">{{ row[column.def] }}</td>
+      </span>
+      <span *ngIf="column.def === 'dateOfBirth'">
+        <td mat-cell *matCellDef="let row">{{ row[column.def] | date: 'longDate' }}</td>
       </span>
     </ng-container>
 
